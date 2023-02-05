@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>App Name: A Coding Project By Zsolt Dzsugan</title>
+    <title>Zero to 100: A Coding Project By Zsolt Dzsugan</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,21 +14,27 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/css/site.css">
 
-    <!-- PRISM -->
-    <link rel="stylesheet" href="/css/prism.css">
-
     <!-- ICONS -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="icon" href="img/icon/favicon.ico">
-
+    <!-- FONTAWESOME KIT -->
     <script src="https://kit.fontawesome.com/cea2e03a5f.js" crossorigin="anonymous"></script>
+    
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Permanent+Marker&family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- PRISMJS -->
+    <link rel="stylesheet" href="css/prism.css">
+
 </head>
 
 <body class="d-flex flex-column h-100">
     <!-- ===== SECTION: NAV ===== -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/icon/favicon-32x32.png" height="50px" alt="Zsolt Dzsugan logo"><span>APP Name</span></a>
+            <a class="navbar-brand" href="#"><img src="img/icon/favicon-32x32.png" height="50px" alt="Zsolt Dzsugan logo"><span>Zero to 100</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,20 +65,86 @@
         <div class="container py-4 px-5">
             <h2 class="code-title">The Code</h2>
             <div class="row row-cols-1 row-cols-lg-2">
-                <div class="col-lg-8">
-                    <pre class="line-numbers">
+                <div class="col-lg-7">
+                    <pre class="">
                         <code class="language-javascript">
-                            // Call function
-                            function HelloWorld() {
-                                alert("Hello World");
-                            }
+// Get elements from the page
+const btnRun = document.querySelector('#btnSubmit');
+const resultsTable = document.querySelector('#results');
+
+// Get the values from the page
+// Controller function(s)
+function getValues() {
+    // Get values from the page
+    let startValue = document.querySelector('#startValue').value;
+    let endValue = document.querySelector('#endValue').value;
+
+    // Parse into Integers
+    startValue = parseInt(startValue);
+    endValue = parseInt(endValue);
+
+    // Validate startValue and endValue
+    if (Number.isInteger(startValue) && Number.isInteger(endValue)) {
+        // Call generateNumbers
+        const numbers = generateNumbers(startValue, endValue);
+        // Call displayNumbers
+        displayNumbers(numbers);
+    } else {
+        // Inform user about error
+        alert("You must enter numbers!");
+    }
+}
+
+// Generate numbers from startValue to endValue
+// logic function(s)
+function generateNumbers(startNum, endNum) {
+    const numbersArray = [];
+
+    // This will execute in a lopp until index(startNum) = endNum
+    for (let i = startNum; i <= endNum; i++) {
+        // Append i value to numbers array
+        numbersArray.push(i)
+    }
+
+    return numbersArray;
+}
+
+// Display the numbers and mark even numbers bold
+// Display/view function(s)
+function displayNumbers(numbers) {
+
+    let templateRows = "";
+
+    for (let i = 0; i < numbers.length; i++) {
+        
+        let number = numbers[i];
+
+        let className = (number % 2 == 0) ? "even" : "odd";
+        
+        // Template literal does not render correctly with Prismjs,
+        // see more @ description or GitHub
+        templateRows += `<tr><td class="${className}">${number}</td></tr>`
+    }
+
+    resultsTable.innerHTML = templateRows;
+
+}
+
+btnRun.addEventListener('click', getValues);
                         </code>
                     </pre>
                 </div>
-                <div class="col-lg-4">
-                    <p>The Code is structured in one function.</p>
-                    <h5>Hello World</h5>
-                    <p>Hello World is a function that displays an alert with a message of "Hello World".</p>
+                <div class="col-lg-5 code-desc order-first order-lg-last">
+                    <h4>Zero to 100</h4>
+                    <h5>Description</h5>
+                    <p>This code generates an array from two values (user input), then displays it in a table.</p>
+                    <h6>Template literals issue:</h6>
+                    <p>templateRows will be a template literal which we want to display in our HTML page. <br>This requires us to create the table row ("tr"), inside it a data ("td") element with a class of even or odd (${className}). Between the td tags will be the number variable (${number}).<br><br>
+                    For more information about template literals check out these websites:
+
+                    <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/template_literals" target="_blank"><br> https://developer.mozilla.org/en-US/docs/web/javascript/reference/template_literals</a><br>
+                    <a href="https://www.w3schools.com/JS//js_string_templates.asp" target="_blank">https://www.w3schools.com/JS//js_string_templates.asp</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -101,16 +173,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
     </script>
-    <!-- PRISM -->
-    <script src="/js/prism.js"></script>
-    <script>
-        Prism.plugins.NormalizeWhitespace.setDefaults({
-            'remove-trailing': true,
-            'remove-indent': true,
-            'left-trim': true,
-            'right-trim': true
-        })
-    </script>
+    <script src="js/prism.js"></script>
 </body>
 
 </html>
